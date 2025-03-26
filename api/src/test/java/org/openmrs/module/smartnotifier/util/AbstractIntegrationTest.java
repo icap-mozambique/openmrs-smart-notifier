@@ -16,7 +16,7 @@ import org.openmrs.test.TestUtil;
 /**
  * @author Stélio Moiane
  */
-public abstract class IntegrationTest extends BaseModuleContextSensitiveTest {
+public abstract class AbstractIntegrationTest extends BaseModuleContextSensitiveTest {
 	
 	@Override
 	public Boolean useInMemoryDatabase() {

@@ -28,6 +28,7 @@
 
 	<!-- Wraps SmartNotifierService methods in DB transactions and OpenMRS interceptors, 
 		which set audit info like dateCreated, changedBy, etc. -->
+
 	<bean id="smartnotifier.PatientsOnArtLessThanSixMonthsService"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager">
@@ -50,13 +51,43 @@
 
 	<!-- Adds SmartNotifierService to OpenMRS context so it can be accessed 
 		calling Context.getService(SmartNotifierService.class) -->
+
 	<bean parent="serviceContext">
 		<property name="moduleService">
-			<list>
+			<list merge="true">
 				<value>org.openmrs.module.smartnotifier.api.service.PatientsOnArtLessThanSixMonthsService</value>
 				<ref bean="smartnotifier.PatientsOnArtLessThanSixMonthsService" />
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="smartnotifier.SendPatientsToBeNotifiedService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<bean
+				class="org.openmrs.module.smartnotifier.api.service.SendPatientsToBeNotifiedServiceImpl">
+				<property name="patientNotificationDAO"
+					ref="smartnotifier.PatientNotificationDAO" />
+			</bean>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<ref bean="transactionAttributeSource" />
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>org.openmrs.module.smartnotifier.api.service.SendPatientsToBeNotifiedService</value>
+				<ref bean="smartnotifier.SendPatientsToBeNotifiedService" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

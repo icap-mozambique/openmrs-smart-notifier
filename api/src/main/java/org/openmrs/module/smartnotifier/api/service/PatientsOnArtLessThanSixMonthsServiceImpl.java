@@ -15,6 +15,7 @@ import org.openmrs.module.smartnotifier.api.exception.BusinessException;
 import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
 import org.openmrs.module.smartnotifier.api.model.NotificationType;
 import org.openmrs.module.smartnotifier.api.model.PatientNotification;
+import org.openmrs.module.smartnotifier.api.util.DateUtil;
 import org.openmrs.module.smartnotifier.api.util.ParamBuilder;
 import org.openmrs.module.smartnotifier.api.util.QueryUtil;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,7 @@ public class PatientsOnArtLessThanSixMonthsServiceImpl extends BaseOpenmrsServic
 		
 		for (final PatientNotification patientNotification : patientNotifications) {
 			
-			LocalDate appointmentDate = patientNotification.getAppointmentDate();
+			LocalDate appointmentDate = DateUtil.toLocalDate(patientNotification.getAppointmentDate());
 			
 			if (DayOfWeek.SATURDAY.equals(appointmentDate.getDayOfWeek())) {
 				appointmentDate = appointmentDate.plusDays(2);
@@ -52,7 +53,7 @@ public class PatientsOnArtLessThanSixMonthsServiceImpl extends BaseOpenmrsServic
 				appointmentDate = appointmentDate.plusDays(1);
 			}
 			
-			patientNotification.setAppointmentDate(appointmentDate);
+			patientNotification.setSuggestedAppointmentDate(DateUtil.toTimestamp(appointmentDate));
 			patientNotification.setNotificationType(NotificationType.ON_ART_LESS_THAN_6_MONTHS);
 			patientNotification.setNotificationStatus(NotificationStatus.PENDING);
 			

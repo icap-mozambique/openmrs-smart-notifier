@@ -9,11 +9,9 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.openmrs.Location;
 import org.openmrs.module.smartnotifier.api.dao.PatientNotificationDAO;
 import org.openmrs.module.smartnotifier.api.exception.BusinessException;
@@ -22,15 +20,16 @@ import org.openmrs.module.smartnotifier.api.model.NotificationType;
 import org.openmrs.module.smartnotifier.api.model.PatientNotification;
 import org.openmrs.module.smartnotifier.api.service.PatientsOnArtLessThanSixMonthsService;
 import org.openmrs.module.smartnotifier.api.service.PatientsOnArtLessThanSixMonthsServiceImpl;
+import org.openmrs.module.smartnotifier.api.util.DateUtil;
 import org.openmrs.module.smartnotifier.api.util.ParamBuilder;
 import org.openmrs.module.smartnotifier.api.util.QueryUtil;
+import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
 
 /**
  * @author Stélio Moiane
  */
 
-@RunWith(MockitoJUnitRunner.class)
-public class PatientsOnArtLessThanSixMonthsServiceTest {
+public class PatientsOnArtLessThanSixMonthsServiceTest extends AbstractUnitTest {
 	
 	@InjectMocks
 	private PatientsOnArtLessThanSixMonthsServiceImpl patientsOnArtLessThanSixMonthsService;
@@ -46,7 +45,7 @@ public class PatientsOnArtLessThanSixMonthsServiceTest {
 		final LocalDate appointmentDate = LocalDate.of(2025, 03, 22);
 
 		final PatientNotification patientNotification = new PatientNotification();
-		patientNotification.setAppointmentDate(appointmentDate);
+		patientNotification.setAppointmentDate(DateUtil.toTimestamp(appointmentDate));
 
 		Mockito.when(
 				this.patientNotificationDAO.getPatientsToNotify(
@@ -60,7 +59,7 @@ public class PatientsOnArtLessThanSixMonthsServiceTest {
 		Assert.assertFalse(patientNotifications.isEmpty());
 
 		patientNotifications.forEach(notification -> {
-			Assert.assertEquals(appointmentDate.plusDays(2), notification.getAppointmentDate());
+			Assert.assertEquals(appointmentDate.plusDays(2), DateUtil.toLocalDate(notification.getSuggestedAppointmentDate()));
 			Assert.assertEquals(NotificationType.ON_ART_LESS_THAN_6_MONTHS, notification.getNotificationType());
 			Assert.assertEquals(NotificationStatus.PENDING, notification.getNotificationStatus());
 

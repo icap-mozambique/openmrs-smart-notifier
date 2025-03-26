@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>smartnotifier</artifactId>
-		<version>mz.org.columbia.smartnotifier</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>smartnotifier-omod</artifactId>
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>smartnotifier-api</artifactId>
-			<version>mz.org.columbia.smartnotifier</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openmrs.web</groupId>
@@ -33,6 +33,26 @@
 			<artifactId>legacyui-omod</artifactId>
 			<version>1.5.0</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.46</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>2.46</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>2.46</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.16.2</version>
 		</dependency>
 	</dependencies>
 

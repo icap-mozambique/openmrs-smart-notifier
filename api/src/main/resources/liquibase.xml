@@ -1,39 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
- 
-    <!--
-    	See http://wiki.openmrs.org/display/docs/Module+liquibase+File for 
-    	documentation on this file.
-    
-        See http://www.liquibase.org/manual/home#available_database_refactorings
-        for a list of supported elements and attributes
-    -->
- 
- 	<!-- Uncomment the changeset below if you want to make the Item class persistable, see also Item and SmartNotifierDaoTest -->
- 	<!--
-	<changeSet id="smartnotifier-2016-08-02-12-21" author="raff">
+
+	<!-- See http://wiki.openmrs.org/display/docs/Module+liquibase+File for 
+		documentation on this file. See http://www.liquibase.org/manual/home#available_database_refactorings 
+		for a list of supported elements and attributes -->
+
+	<!-- Uncomment the changeset below if you want to make the Item class persistable, 
+		see also Item and SmartNotifierDaoTest -->
+
+	<changeSet id="smartnotifier-2025-03-24-15-55"
+		author="steliomo">
 		<preConditions onFail="MARK_RAN">
-			<not><tableExists tableName="smartnotifier_item"/></not>
+			<not>
+				<tableExists tableName="patient_notifications" />
+			</not>
 		</preConditions>
+
 		<comment>
-			Creating the smartnotifier_item table
+			Creating the patient_notifications table
 		</comment>
-		<createTable tableName="smartnotifier_item">
-			<column name="smartnotifier_item_id" type="int" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false"/>
+
+		<createTable tableName="patient_notifications">
+
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
 			</column>
+
 			<column name="uuid" type="char(38)">
 				<constraints nullable="false" unique="true"></constraints>
 			</column>
-			<column name="owner" type="int" />
-			<column name="description" type="varchar(255)" />
+
+			<column name="patient_id" type="int(11)">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="identifier" type="varchar(30)" />
+
+			<column name="art_start_date" type="datetime" />
+
+			<column name="phone_number" type="varchar(30)" />
+
+			<column name="appointment_date" type="datetime">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="suggested_appointment_date" type="datetime">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="notification_type" type="varchar(150)" />
+
+			<column name="notification_status" type="varchar(25)" />
+
+			<column name="creator" type="int(11)" />
+
+			<column name="date_created" type="datetime" />
+
+			<column name="changed_by" type="int(11)" />
+
+			<column name="date_changed" type="datetime" />
+
+			<column name="voided" type="tinyint(1)" />
+
+			<column name="date_voided" type="datetime" />
+
+			<column name="voided_by" type="int(11)" />
+
+			<column name="void_reason" type="varchar(255)" />
+
 		</createTable>
-        <addForeignKeyConstraint constraintName="smartnotifier_item_owner_fk" baseTableName="smartnotifier_item" baseColumnNames="owner"  referencedTableName="users"
-                                 referencedColumnNames="user_id" />
-    </changeSet> -->
- 
+
+		<addForeignKeyConstraint
+			constraintName="patient_notifications_patient_id_fk"
+			baseTableName="patient_notifications" baseColumnNames="patient_id"
+			referencedTableName="patient" referencedColumnNames="patient_id" />
+
+		<addForeignKeyConstraint
+			constraintName="patient_notifications_creator_fk"
+			baseTableName="patient_notifications" baseColumnNames="creator"
+			referencedTableName="users" referencedColumnNames="user_id" />
+
+		<addForeignKeyConstraint
+			constraintName="patient_notifications_changed_by_fk"
+			baseTableName="patient_notifications" baseColumnNames="changed_by"
+			referencedTableName="users" referencedColumnNames="user_id" />
+
+		<addForeignKeyConstraint
+			constraintName="patient_notifications_voided_by_fk"
+			baseTableName="patient_notifications" baseColumnNames="voided_by"
+			referencedTableName="users" referencedColumnNames="user_id" />
+
+	</changeSet>
+
 </databaseChangeLog>

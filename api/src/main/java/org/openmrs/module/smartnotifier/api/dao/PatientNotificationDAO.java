@@ -16,12 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Patient;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.smartnotifier.api.model.Item;
+import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
 import org.openmrs.module.smartnotifier.api.model.PatientNotification;
 import org.openmrs.module.smartnotifier.api.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,14 +74,26 @@ public class PatientNotificationDAO {
 			
 			notification.setPatient(patient);
 			notification.setIdentifier((String) row[1]);
-			notification.setArtStartDate(DateUtil.toLocalDate((Timestamp) row[2]));
+			notification.setArtStartDate((Timestamp) row[2]);
 			notification.setPhoneNumebr((String) row[3]);
-			notification.setAppointmentDate(DateUtil.toLocalDate((Timestamp) row[4]));
+			notification.setAppointmentDate((Timestamp) row[4]);
 			
 			patientNotifications.add(notification);
 			
 		}
 		
 		return patientNotifications;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PatientNotification> getPendingPatientNotifications() {
+		
+		final Query query = this
+		        .getSession()
+		        .createQuery(
+		            "SELECT pn FROM smartnotifier.api.model.PatientNotification pn WHERE pn.notificationStatus = :notificationStatus");
+		query.setParameter("notificationStatus", NotificationStatus.PENDING);
+		
+		return query.list();
 	}
 }

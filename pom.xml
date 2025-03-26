@@ -9,10 +9,16 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>smartnotifier</artifactId>
-	<version>mz.org.columbia.smartnotifier</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Smart Notifier</name>
 	<description>This module aims to provide the list of patients to be notified about the next scheduled appointments or phone calls</description>
+
+	<properties>
+		<openmrsPlatformVersion>2.3.3</openmrsPlatformVersion>
+		<javaCompilerSource>1.8</javaCompilerSource>
+		<javaCompilerTarget>1.8</javaCompilerTarget>
+	</properties>
 
 	<url>https://wiki.openmrs.org/x/FQ4z</url>
 
@@ -50,6 +56,36 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- Begin OpenMRS core -->
+			<dependency>
+				<groupId>org.openmrs.api</groupId>
+				<artifactId>openmrs-api</artifactId>
+				<version>${openmrsPlatformVersion}</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.api</groupId>
+				<artifactId>openmrs-api</artifactId>
+				<version>${openmrsPlatformVersion}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.test</groupId>
+				<artifactId>openmrs-test</artifactId>
+				<version>${openmrsPlatformVersion}</version>
+				<type>pom</type>
+				<scope>test</scope>
+			</dependency>
+			<!-- End OpenMRS core -->
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
@@ -97,11 +133,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<properties>
-		<openmrsPlatformVersion>2.3.3</openmrsPlatformVersion>
-		<javaCompilerSource>1.8</javaCompilerSource>
-		<javaCompilerTarget>1.8</javaCompilerTarget>
-	</properties>
 
 </project>

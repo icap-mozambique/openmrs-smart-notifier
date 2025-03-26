@@ -3,7 +3,7 @@
  */
 package org.openmrs.module.smartnotifier.api.model;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import org.openmrs.Patient;
  * @author Stélio Moiane
  */
 
-@Entity(name = "patient_notifications")
+@Entity(name = "smartnotifier.api.model.PatientNotification")
 @Table(name = "patient_notifications")
 public class PatientNotification extends BaseOpenmrsData {
 	
@@ -37,17 +37,20 @@ public class PatientNotification extends BaseOpenmrsData {
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 	
-	@Column(name = "identifier", length = 25)
+	@Column(name = "identifier", length = 30)
 	private String identifier;
 	
-	@Column(name = "art_start_date", length = 15)
-	private LocalDate artStartDate;
+	@Column(name = "art_start_date", nullable = false)
+	private Timestamp artStartDate;
 	
-	@Column(name = "phone_number", length = 15)
+	@Column(name = "phone_number", length = 30)
 	private String phoneNumebr;
 	
-	@Column(name = "appointment_date", length = 15)
-	private LocalDate appointmentDate;
+	@Column(name = "appointment_date", nullable = false)
+	private Timestamp appointmentDate;
+	
+	@Column(name = "suggested_appointment_date", nullable = false)
+	private Timestamp suggestedAppointmentDate;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "notification_type", length = 150)
@@ -83,11 +86,11 @@ public class PatientNotification extends BaseOpenmrsData {
 		this.identifier = identifier;
 	}
 	
-	public LocalDate getArtStartDate() {
+	public Timestamp getArtStartDate() {
 		return this.artStartDate;
 	}
 	
-	public void setArtStartDate(final LocalDate artStartDate) {
+	public void setArtStartDate(final Timestamp artStartDate) {
 		this.artStartDate = artStartDate;
 	}
 	
@@ -99,12 +102,20 @@ public class PatientNotification extends BaseOpenmrsData {
 		this.phoneNumebr = phoneNumebr;
 	}
 	
-	public LocalDate getAppointmentDate() {
+	public Timestamp getAppointmentDate() {
 		return this.appointmentDate;
 	}
 	
-	public void setAppointmentDate(final LocalDate appointmentDate) {
+	public void setAppointmentDate(final Timestamp appointmentDate) {
 		this.appointmentDate = appointmentDate;
+	}
+	
+	public Timestamp getSuggestedAppointmentDate() {
+		return this.suggestedAppointmentDate;
+	}
+	
+	public void setSuggestedAppointmentDate(final Timestamp suggestedAppointmentDate) {
+		this.suggestedAppointmentDate = suggestedAppointmentDate;
 	}
 	
 	public NotificationType getNotificationType() {
