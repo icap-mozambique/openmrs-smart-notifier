@@ -34,3 +34,8 @@ omod/.classpath
 omod/.gitignore
 omod/.project
 omod/.settings/
+
+release.properties
+api/pom.xml.releaseBackup
+omod/pom.xml.releaseBackup
+pom.xml.releaseBackup
