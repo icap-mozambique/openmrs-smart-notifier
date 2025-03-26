@@ -96,5 +96,12 @@
 			referencedTableName="users" referencedColumnNames="user_id" />
 
 	</changeSet>
+	
+	<changeSet id="smartnotifier-2025-03-26-10-55" author="steliomo">
+		<comment>
+			Smart Notifier Tasks Configuration
+		</comment>
+		<sqlFile path="METADATA/TASKS_CONFIG.sql" />
+	</changeSet>
 
 </databaseChangeLog>

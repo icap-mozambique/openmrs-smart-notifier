@@ -368,5 +368,5 @@
 					WHERE pa.voided = 0 AND pa.person_attribute_type_id = 9
 						GROUP BY pa.person_id
 			 )contact ON contact.person_id = coorte12meses_final.patient_id
-             where (data_estado is null or (data_estado is not null and  data_fila > data_estado)) and date_add(data_usar, interval 28 day) >= :endDate and DATEDIFF(data_usar, :endDate) >= 3 
-             	AND DATEDIFF(data_usar, :endDate) <= 7 AND DATEDIFF( :endDate , data_inicio) <= 180	
+             where (data_estado is null or (data_estado is not null and  data_fila > data_estado)) and date_add(data_usar, interval 28 day) >= :endDate 
+			 AND DATEDIFF(data_usar, :endDate) = 3 AND DATEDIFF( :endDate , data_inicio) <= 180
