@@ -30,13 +30,13 @@ import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
  */
 
 public class PatientsOnArtLessThanSixMonthsServiceTest extends AbstractUnitTest {
-
+	
 	@InjectMocks
 	private PatientsOnArtLessThanSixMonthsServiceImpl patientsOnArtLessThanSixMonthsService;
-
+	
 	@Mock
 	private PatientNotificationDAO patientNotificationDAO;
-
+	
 	@Test
 	public void shouldProcessPatientsOnArtLessThanSixMonths() throws BusinessException {
 
