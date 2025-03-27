@@ -46,11 +46,11 @@ public class PatientsOnArtLessThanSixMonthsServiceImpl extends BaseOpenmrsServic
 			LocalDate appointmentDate = DateUtil.toLocalDate(patientNotification.getAppointmentDate());
 			
 			if (DayOfWeek.SATURDAY.equals(appointmentDate.getDayOfWeek())) {
-				appointmentDate = appointmentDate.plusDays(2);
+				appointmentDate = appointmentDate.minusDays(1);
 			}
 			
 			if (DayOfWeek.SUNDAY.equals(appointmentDate.getDayOfWeek())) {
-				appointmentDate = appointmentDate.plusDays(1);
+				appointmentDate = appointmentDate.minusDays(2);
 			}
 			
 			patientNotification.setSuggestedAppointmentDate(DateUtil.toTimestamp(appointmentDate));

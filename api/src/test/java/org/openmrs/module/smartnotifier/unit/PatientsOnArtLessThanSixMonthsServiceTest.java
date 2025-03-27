@@ -30,13 +30,13 @@ import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
  */
 
 public class PatientsOnArtLessThanSixMonthsServiceTest extends AbstractUnitTest {
-	
+
 	@InjectMocks
 	private PatientsOnArtLessThanSixMonthsServiceImpl patientsOnArtLessThanSixMonthsService;
-	
+
 	@Mock
 	private PatientNotificationDAO patientNotificationDAO;
-	
+
 	@Test
 	public void shouldProcessPatientsOnArtLessThanSixMonths() throws BusinessException {
 
@@ -59,7 +59,7 @@ public class PatientsOnArtLessThanSixMonthsServiceTest extends AbstractUnitTest 
 		Assert.assertFalse(patientNotifications.isEmpty());
 
 		patientNotifications.forEach(notification -> {
-			Assert.assertEquals(appointmentDate.plusDays(2), DateUtil.toLocalDate(notification.getSuggestedAppointmentDate()));
+			Assert.assertEquals(appointmentDate.minusDays(1), DateUtil.toLocalDate(notification.getSuggestedAppointmentDate()));
 			Assert.assertEquals(NotificationType.ON_ART_LESS_THAN_6_MONTHS, notification.getNotificationType());
 			Assert.assertEquals(NotificationStatus.PENDING, notification.getNotificationStatus());
 
