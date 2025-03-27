@@ -9,7 +9,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>smartnotifier</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Smart Notifier</name>
 	<description>This module aims to provide the list of patients to be notified about the next scheduled appointments or phone calls</description>
@@ -23,9 +23,9 @@
 	<url>https://wiki.openmrs.org/x/FQ4z</url>
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-smartnotifier.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-smartnotifier.git</developerConnection>
-		<url>https://github.com/openmrs/openmrs-module-smartnotifier/</url>
+		<connection>scm:git:git@github.com:icap-mozambique/openmrs-smart-notifier.git</connection>
+		<developerConnection>scm:git:git@github.com:icap-mozambique/openmrs-smart-notifier.git</developerConnection>
+		<url>https://github.com/icap-mozambique/openmrs-smart-notifier/</url>
 	  <tag>1.0.0</tag>
   </scm>
 
