@@ -7,8 +7,10 @@ import java.time.LocalDate;
 
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase;
+import org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersForFiveDaysUseCase;
+import org.openmrs.module.smartnotifier.api.application.ProcessPatientsOnArtLessThanSixMonthsUseCase;
 import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.service.PatientsOnArtLessThanSixMonthsService;
 import org.openmrs.scheduler.tasks.AbstractTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +25,24 @@ public class LoadPatientsEligibleToNotificationsTask extends AbstractTask {
 	@Override
 	public void execute() {
 		
-		final PatientsOnArtLessThanSixMonthsService patientsOnArtLessThanSixMonthsService = Context
-		        .getService(PatientsOnArtLessThanSixMonthsService.class);
+		final ProcessPatientsOnArtLessThanSixMonthsUseCase processPatientsOnArtLessThanSixMonthsService = Context
+		        .getService(ProcessPatientsOnArtLessThanSixMonthsUseCase.class);
+		
+		final ProcessPatientsDefaultersForFiveDaysUseCase processPatientsDefaultersForFiveDaysUseCase = Context
+		        .getService(ProcessPatientsDefaultersForFiveDaysUseCase.class);
+		
+		final ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase processPatientsDefaultersButNotifiedThreeDaysAgoUseCase = Context
+		        .getService(ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase.class);
+		
 		final Location location = Context.getLocationService().getDefaultLocation();
 		final LocalDate now = LocalDate.now();
 		
 		try {
 			LoadPatientsEligibleToNotificationsTask.log.info("The load patients task started.....");
 			
-			patientsOnArtLessThanSixMonthsService.process(now, location);
+			processPatientsOnArtLessThanSixMonthsService.process(now, location);
+			processPatientsDefaultersForFiveDaysUseCase.process(now, location);
+			processPatientsDefaultersButNotifiedThreeDaysAgoUseCase.process(now, location);
 			
 			LoadPatientsEligibleToNotificationsTask.log.info("The load patients task finished.....");
 		}

@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.service;
+package org.openmrs.module.smartnotifier.api.application;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.openmrs.module.smartnotifier.api.model.PatientNotification;
 /**
  * @author Stélio Moiane
  */
-public interface PatientsOnArtLessThanSixMonthsService extends OpenmrsService {
+public interface ProcessPatientsOnArtLessThanSixMonthsUseCase extends OpenmrsService {
 	
 	String PATIENTS_ON_ART_LESS_THAN_SIX_MONTHS = "NOTIFICATION/PATIENTS_ON_ART_LESS_THAN_SIX_MONTHS.sql";
 	

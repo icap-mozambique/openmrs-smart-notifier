@@ -360,7 +360,7 @@
              )consent ON consent.patient_id = coorte12meses_final.patient_id
              INNER JOIN(
              	SELECT * FROM patient_identifier pi
-             		WHERE pi.preferred = TRUE
+             		WHERE pi.preferred = 1
              		GROUP BY pi.patient_id
              ) identifier ON identifier.patient_id = coorte12meses_final.patient_id
 			 INNER JOIN(

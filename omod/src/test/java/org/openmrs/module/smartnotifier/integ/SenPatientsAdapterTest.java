@@ -27,7 +27,7 @@ public class SenPatientsAdapterTest {
 	public void shouldSendPatientsToBeNotified() throws BusinessException {
 		
 		final PatientNotification patientNotification = new PatientNotification();
-		patientNotification.setPhoneNumebr("822546100");
+		patientNotification.setPhoneNumber("822546100");
 		patientNotification.setSuggestedAppointmentDate(DateUtil.toTimestamp(LocalDate.of(2025, 03, 28)));
 		patientNotification.setNotificationType(NotificationType.ON_ART_LESS_THAN_6_MONTHS);
 		

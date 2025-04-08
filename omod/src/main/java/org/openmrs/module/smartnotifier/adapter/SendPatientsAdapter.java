@@ -32,7 +32,7 @@ public class SendPatientsAdapter implements SendPatientPort {
 				.newClient();
 
 		final List<PatientNotificationDTO> patientNotificationDTOs = patientNotifications.stream()
-				.map(notification -> new PatientNotificationDTO(notification.getPhoneNumebr(), notification.getNotificationType().getValue(),
+				.map(notification -> new PatientNotificationDTO(notification.getPhoneNumber(), notification.getNotificationType().getValue(),
 						notification.getSuggestedAppointmentDate().toLocalDateTime().toLocalDate().toString()))
 				.collect(Collectors.toList());
 

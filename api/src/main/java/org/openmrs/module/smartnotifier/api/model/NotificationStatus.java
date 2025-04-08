@@ -10,5 +10,7 @@ public enum NotificationStatus {
 	
 	PENDING,
 	
-	SENT
+	SENT,
+	
+	INVALID_PHONE_NUMBER;
 }

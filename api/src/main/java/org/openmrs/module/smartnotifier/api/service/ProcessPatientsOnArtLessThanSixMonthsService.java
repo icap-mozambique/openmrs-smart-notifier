@@ -10,26 +10,30 @@ import java.util.Map;
 
 import org.openmrs.Location;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.smartnotifier.api.dao.PatientNotificationDAO;
+import org.openmrs.module.smartnotifier.api.application.ProcessPatientsOnArtLessThanSixMonthsUseCase;
 import org.openmrs.module.smartnotifier.api.exception.BusinessException;
 import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
 import org.openmrs.module.smartnotifier.api.model.NotificationType;
 import org.openmrs.module.smartnotifier.api.model.PatientNotification;
+import org.openmrs.module.smartnotifier.api.out.PatientNotificationPort;
 import org.openmrs.module.smartnotifier.api.util.DateUtil;
 import org.openmrs.module.smartnotifier.api.util.ParamBuilder;
+import org.openmrs.module.smartnotifier.api.util.PhoneNumberValidator;
 import org.openmrs.module.smartnotifier.api.util.QueryUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Stélio Moiane
  */
 @Transactional
-public class PatientsOnArtLessThanSixMonthsServiceImpl extends BaseOpenmrsService implements PatientsOnArtLessThanSixMonthsService {
+public class ProcessPatientsOnArtLessThanSixMonthsService extends BaseOpenmrsService implements ProcessPatientsOnArtLessThanSixMonthsUseCase {
 	
-	private PatientNotificationDAO patientNotificationDAO;
+	private PatientNotificationPort patientNotificationPort;
 	
-	public void setPatientNotificationDAO(final PatientNotificationDAO patientNotificationDAO) {
-		this.patientNotificationDAO = patientNotificationDAO;
+	@Autowired
+	public ProcessPatientsOnArtLessThanSixMonthsService(final PatientNotificationPort patientNotificationPort) {
+		this.patientNotificationPort = patientNotificationPort;
 	}
 	
 	@Override
@@ -38,10 +42,13 @@ public class PatientsOnArtLessThanSixMonthsServiceImpl extends BaseOpenmrsServic
 		final Map<String, Object> params = new ParamBuilder().add("endDate", endDate).add("location", location.getId())
 		        .getParams();
 		
-		final List<PatientNotification> patientNotifications = this.patientNotificationDAO.getPatientsToNotify(
-		    QueryUtil.loadQuery(PatientsOnArtLessThanSixMonthsService.PATIENTS_ON_ART_LESS_THAN_SIX_MONTHS), params);
+		final List<PatientNotification> patientNotifications = this.patientNotificationPort.getPatientsToNotify(
+		    QueryUtil.loadQuery(ProcessPatientsOnArtLessThanSixMonthsUseCase.PATIENTS_ON_ART_LESS_THAN_SIX_MONTHS), params);
 		
 		for (final PatientNotification patientNotification : patientNotifications) {
+			
+			patientNotification.setNotificationStatus(NotificationStatus.PENDING);
+			patientNotification.setNotificationType(NotificationType.ON_ART_LESS_THAN_6_MONTHS);
 			
 			LocalDate appointmentDate = DateUtil.toLocalDate(patientNotification.getAppointmentDate());
 			
@@ -53,11 +60,13 @@ public class PatientsOnArtLessThanSixMonthsServiceImpl extends BaseOpenmrsServic
 				appointmentDate = appointmentDate.minusDays(2);
 			}
 			
-			patientNotification.setSuggestedAppointmentDate(DateUtil.toTimestamp(appointmentDate));
-			patientNotification.setNotificationType(NotificationType.ON_ART_LESS_THAN_6_MONTHS);
-			patientNotification.setNotificationStatus(NotificationStatus.PENDING);
+			if (!PhoneNumberValidator.isValidate(patientNotification.getPhoneNumber())) {
+				patientNotification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
+			}
 			
-			this.patientNotificationDAO.savePatientNotification(patientNotification);
+			patientNotification.setSuggestedAppointmentDate(DateUtil.toTimestamp(appointmentDate));
+			
+			this.patientNotificationPort.savePatientNotification(patientNotification);
 		}
 		
 		return patientNotifications;

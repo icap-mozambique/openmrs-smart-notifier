@@ -96,12 +96,31 @@
 			referencedTableName="users" referencedColumnNames="user_id" />
 
 	</changeSet>
-	
-	<changeSet id="smartnotifier-2025-03-26-10-55" author="steliomo">
+
+	<changeSet id="smartnotifier-2025-03-26-10-55"
+		author="steliomo">
 		<comment>
 			Smart Notifier Tasks Configuration
 		</comment>
 		<sqlFile path="METADATA/TASKS_CONFIG.sql" />
+	</changeSet>
+
+
+	<changeSet id="smartnotifier-2025-04-02-16-00"
+		author="steliomo">
+
+		<comment>
+			Smart Notifier Update/Add Columns
+		</comment>
+
+		<modifyColumn tableName="patient_notifications">
+			<column name="phone_number" type="varchar(150)" />
+		</modifyColumn>
+
+		<addColumn tableName="patient_notifications">
+			<column name="notification_sent_date" type="datetime" />
+		</addColumn>
+		
 	</changeSet>
 
 </databaseChangeLog>

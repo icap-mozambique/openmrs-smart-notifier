@@ -43,8 +43,8 @@ public class PatientNotification extends BaseOpenmrsData {
 	@Column(name = "art_start_date", nullable = false)
 	private Timestamp artStartDate;
 	
-	@Column(name = "phone_number", length = 30)
-	private String phoneNumebr;
+	@Column(name = "phone_number", length = 150)
+	private String phoneNumber;
 	
 	@Column(name = "appointment_date", nullable = false)
 	private Timestamp appointmentDate;
@@ -59,6 +59,9 @@ public class PatientNotification extends BaseOpenmrsData {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "notification_status", length = 25)
 	private NotificationStatus notificationStatus;
+	
+	@Column(name = "notification_sent_date")
+	private Timestamp notificationSentDate;
 	
 	@Override
 	public Integer getId() {
@@ -94,12 +97,12 @@ public class PatientNotification extends BaseOpenmrsData {
 		this.artStartDate = artStartDate;
 	}
 	
-	public String getPhoneNumebr() {
-		return this.phoneNumebr;
+	public String getPhoneNumber() {
+		return this.phoneNumber;
 	}
 	
-	public void setPhoneNumebr(final String phoneNumebr) {
-		this.phoneNumebr = phoneNumebr;
+	public void setPhoneNumber(final String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 	public Timestamp getAppointmentDate() {
@@ -132,5 +135,13 @@ public class PatientNotification extends BaseOpenmrsData {
 	
 	public void setNotificationStatus(final NotificationStatus notificationStatus) {
 		this.notificationStatus = notificationStatus;
+	}
+	
+	public Timestamp getNotificationSentDate() {
+		return this.notificationSentDate;
+	}
+	
+	public void setNotificationSentDate(final Timestamp notificationSentDate) {
+		this.notificationSentDate = notificationSentDate;
 	}
 }

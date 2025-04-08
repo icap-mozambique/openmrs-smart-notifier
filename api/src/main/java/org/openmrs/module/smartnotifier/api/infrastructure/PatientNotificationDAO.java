@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.smartnotifier.api.dao;
+package org.openmrs.module.smartnotifier.api.infrastructure;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -18,19 +18,18 @@ import java.util.Map.Entry;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
-import org.hibernate.criterion.Restrictions;
 import org.openmrs.Patient;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
-import org.openmrs.module.smartnotifier.api.model.Item;
 import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
 import org.openmrs.module.smartnotifier.api.model.PatientNotification;
+import org.openmrs.module.smartnotifier.api.out.PatientNotificationPort;
 import org.openmrs.module.smartnotifier.api.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("smartnotifier.PatientNotificationDAO")
-public class PatientNotificationDAO {
+@Repository("org.openmrs.module.smartnotifier.api.infrastructure.PatientNotificationDAO")
+public class PatientNotificationDAO implements PatientNotificationPort {
 	
 	@Autowired
 	private DbSessionFactory sessionFactory;
@@ -39,15 +38,13 @@ public class PatientNotificationDAO {
 		return this.sessionFactory.getCurrentSession();
 	}
 	
-	public Item getItemByUuid(final String uuid) {
-		return (Item) this.getSession().createCriteria(Item.class).add(Restrictions.eq("uuid", uuid)).uniqueResult();
-	}
-	
+	@Override
 	public PatientNotification savePatientNotification(final PatientNotification patientNotification) {
 		this.getSession().saveOrUpdate(patientNotification);
 		return patientNotification;
 	}
 	
+	@Override
 	public List<PatientNotification> getPatientsToNotify(final String query, final Map<String, Object> params) {
 		
 		final SQLQuery sqlQuery = this.getSession().createSQLQuery(query);
@@ -75,7 +72,7 @@ public class PatientNotificationDAO {
 			notification.setPatient(patient);
 			notification.setIdentifier((String) row[1]);
 			notification.setArtStartDate((Timestamp) row[2]);
-			notification.setPhoneNumebr((String) row[3]);
+			notification.setPhoneNumber((String) row[3]);
 			notification.setAppointmentDate((Timestamp) row[4]);
 			
 			patientNotifications.add(notification);
@@ -85,6 +82,7 @@ public class PatientNotificationDAO {
 		return patientNotifications;
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<PatientNotification> getPendingPatientNotifications() {
 		

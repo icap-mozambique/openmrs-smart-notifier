@@ -11,14 +11,14 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.openmrs.module.smartnotifier.api.dao.PatientNotificationDAO;
 import org.openmrs.module.smartnotifier.api.exception.BusinessException;
 import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
 import org.openmrs.module.smartnotifier.api.model.PatientNotification;
 import org.openmrs.module.smartnotifier.api.out.Message;
 import org.openmrs.module.smartnotifier.api.out.MessageStatus;
+import org.openmrs.module.smartnotifier.api.out.PatientNotificationPort;
 import org.openmrs.module.smartnotifier.api.out.SendPatientPort;
-import org.openmrs.module.smartnotifier.api.service.SendPatientsToBeNotifiedServiceImpl;
+import org.openmrs.module.smartnotifier.api.service.SendPatientsToBeNotifiedService;
 import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
 
 /**
@@ -28,33 +28,34 @@ import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
 public class SendPatientsToBeNotifiedServiceTest extends AbstractUnitTest {
 	
 	@InjectMocks
-	private SendPatientsToBeNotifiedServiceImpl sendPatientsToBeNotifiedService;
+	private SendPatientsToBeNotifiedService sendPatientsToBeNotifiedService;
 	
 	@Mock
-	private PatientNotificationDAO patientNotificationDAO;
+	private PatientNotificationPort patientNotificationPort;
 	
 	@Mock
 	private SendPatientPort sendPatientPort;
 	
 	@Test
 	public void shouldSendPatientsToBeNotified() throws BusinessException {
-
+		
 		final PatientNotification patientNotification = new PatientNotification();
-
+		
 		final Message message = new Message(MessageStatus.OK, "Teste");
-
-		Mockito.when(this.patientNotificationDAO.getPendingPatientNotifications()).thenReturn(Arrays.asList(patientNotification));
+		
+		Mockito.when(this.patientNotificationPort.getPendingPatientNotifications()).thenReturn(
+		    Arrays.asList(patientNotification));
 		Mockito.when(this.sendPatientPort.send(Arrays.asList(patientNotification))).thenReturn(message);
-
+		
 		final List<PatientNotification> patients = this.sendPatientsToBeNotifiedService.send();
-
+		
 		Assert.assertFalse(patients.isEmpty());
-
-		Mockito.verify(this.patientNotificationDAO, Mockito.timeout(1)).getPendingPatientNotifications();
-
-		patients.forEach(patient -> {
+		
+		Mockito.verify(this.patientNotificationPort, Mockito.timeout(1)).getPendingPatientNotifications();
+		
+		for (final PatientNotification patient : patients) {
 			Assert.assertEquals(NotificationStatus.SENT, patient.getNotificationStatus());
-			Mockito.verify(this.patientNotificationDAO, Mockito.timeout(1)).savePatientNotification(patientNotification);
-		});
+			Mockito.verify(this.patientNotificationPort, Mockito.timeout(1)).savePatientNotification(patientNotification);
+		}
 	}
 }
