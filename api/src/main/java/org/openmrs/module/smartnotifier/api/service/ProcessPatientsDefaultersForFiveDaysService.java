@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.openmrs.Location;
+import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersForFiveDaysUseCase;
 import org.openmrs.module.smartnotifier.api.exception.BusinessException;
 import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
@@ -17,14 +18,13 @@ import org.openmrs.module.smartnotifier.api.util.ParamBuilder;
 import org.openmrs.module.smartnotifier.api.util.PhoneNumberValidator;
 import org.openmrs.module.smartnotifier.api.util.QueryUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Stélio Moiane
  */
-
-@Transactional
-public class ProcessPatientsDefaultersForFiveDaysService implements ProcessPatientsDefaultersForFiveDaysUseCase {
+@Service("smartnotifier.ProcessPatientsDefaultersForFiveDaysUseCase")
+public class ProcessPatientsDefaultersForFiveDaysService extends BaseOpenmrsService implements ProcessPatientsDefaultersForFiveDaysUseCase {
 	
 	private PatientNotificationPort patientNotificationPort;
 	

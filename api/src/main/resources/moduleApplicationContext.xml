@@ -29,7 +29,7 @@
 	<!-- Wraps SmartNotifierService methods in DB transactions and OpenMRS interceptors, 
 		which set audit info like dateCreated, changedBy, etc. -->
 
-	<bean id="smartnotifier.ProcessPatientsOnArtLessThanSixMonthsUseCase"
+<!-- 	<bean id="smartnotifier.ProcessPatientsOnArtLessThanSixMonthsUseCase"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="transactionManager">
 			<ref bean="transactionManager" />
@@ -43,89 +43,41 @@
 		<property name="transactionAttributeSource">
 			<ref bean="transactionAttributeSource" />
 		</property>
-	</bean>
-
+	</bean> -->
+ 
 	<!-- Adds SmartNotifierService to OpenMRS context so it can be accessed 
 		calling Context.getService(SmartNotifierService.class) -->
 
 	<bean parent="serviceContext">
 		<property name="moduleService">
-			<list merge="true">
+			<list>
 				<value>org.openmrs.module.smartnotifier.api.application.ProcessPatientsOnArtLessThanSixMonthsUseCase</value>
 				<ref bean="smartnotifier.ProcessPatientsOnArtLessThanSixMonthsUseCase" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="smartnotifier.SendPatientsToBeNotifiedUseCase"
-		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-		<property name="transactionManager">
-			<ref bean="transactionManager" />
-		</property>
-		<property name="target">
-			<bean class="org.openmrs.module.smartnotifier.api.service.SendPatientsToBeNotifiedService" />
-		</property>
-		<property name="preInterceptors">
-			<ref bean="serviceInterceptors" />
-		</property>
-		<property name="transactionAttributeSource">
-			<ref bean="transactionAttributeSource" />
-		</property>
-	</bean>
-
 	<bean parent="serviceContext">
 		<property name="moduleService">
-			<list merge="true">
+			<list>
 				<value>org.openmrs.module.smartnotifier.api.application.SendPatientsToBeNotifiedUseCase</value>
 				<ref bean="smartnotifier.SendPatientsToBeNotifiedUseCase" />
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="smartnotifier.ProcessPatientsDefaultersForFiveDaysUseCase"
-		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-		<property name="transactionManager">
-			<ref bean="transactionManager" />
-		</property>
-		<property name="target">
-			<bean class="org.openmrs.module.smartnotifier.api.service.ProcessPatientsDefaultersForFiveDaysService" />
-		</property>
-		<property name="preInterceptors">
-			<ref bean="serviceInterceptors" />
-		</property>
-		<property name="transactionAttributeSource">
-			<ref bean="transactionAttributeSource" />
-		</property>
-	</bean>
 
 	<bean parent="serviceContext">
 		<property name="moduleService">
-			<list merge="true">
+			<list>
 				<value>org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersForFiveDaysUseCase</value>
 				<ref bean="smartnotifier.ProcessPatientsDefaultersForFiveDaysUseCase" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="smartnotifier.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase"
-		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-		<property name="transactionManager">
-			<ref bean="transactionManager" />
-		</property>
-		<property name="target">
-			<bean class="org.openmrs.module.smartnotifier.api.service.ProcessPatientsDefaultersButNotifiedThreeDaysAgoService" />
-		</property>
-		<property name="preInterceptors">
-			<ref bean="serviceInterceptors" />
-		</property>
-		<property name="transactionAttributeSource">
-			<ref bean="transactionAttributeSource" />
-		</property>
-	</bean>
-
 	<bean parent="serviceContext">
 		<property name="moduleService">
-			<list merge="true">
+			<list>
 				<value>org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase</value>
 				<ref bean="smartnotifier.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase" />
 			</list>

@@ -21,12 +21,12 @@ import org.openmrs.module.smartnotifier.api.util.ParamBuilder;
 import org.openmrs.module.smartnotifier.api.util.PhoneNumberValidator;
 import org.openmrs.module.smartnotifier.api.util.QueryUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Stélio Moiane
  */
-@Transactional
+@Service("smartnotifier.ProcessPatientsOnArtLessThanSixMonthsUseCase")
 public class ProcessPatientsOnArtLessThanSixMonthsService extends BaseOpenmrsService implements ProcessPatientsOnArtLessThanSixMonthsUseCase {
 	
 	private PatientNotificationPort patientNotificationPort;

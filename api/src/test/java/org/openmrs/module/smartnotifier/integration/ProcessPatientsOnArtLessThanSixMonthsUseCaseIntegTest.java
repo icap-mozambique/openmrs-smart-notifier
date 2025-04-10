@@ -23,14 +23,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Stélio Moiane
  */
 public class ProcessPatientsOnArtLessThanSixMonthsUseCaseIntegTest extends AbstractIntegrationTest {
-	
+
 	@Autowired
 	private ProcessPatientsOnArtLessThanSixMonthsUseCase patientsOnArtLessThanSixMonthsService;
-	
+
 	@Test
 	@Ignore
 	public void shouldProcessPatientsOnArtLessThanSixMonths() throws BusinessException {
-		final Location location = Context.getLocationService().getLocation(271);
+		final Location location = Context.getLocationService().getDefaultLocation();
 
 		final LocalDate endDate = LocalDate.now();
 
@@ -44,12 +44,12 @@ public class ProcessPatientsOnArtLessThanSixMonthsUseCaseIntegTest extends Abstr
 			Assert.assertEquals(NotificationStatus.PENDING, notification.getNotificationStatus());
 		});
 	}
-	
+
 	@Override
 	protected String username() {
 		return "admin";
 	}
-	
+
 	@Override
 	protected String password() {
 		return "Ic@pSIS2021";
