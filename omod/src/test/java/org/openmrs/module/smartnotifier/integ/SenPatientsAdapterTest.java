@@ -9,7 +9,7 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openmrs.module.smartnotifier.adapter.SendPatientsAdapter;
+import org.openmrs.module.smartnotifier.adapter.SendPatientsToViamoAdapter;
 import org.openmrs.module.smartnotifier.api.application.out.Message;
 import org.openmrs.module.smartnotifier.api.application.out.MessageStatus;
 import org.openmrs.module.smartnotifier.api.common.BusinessException;
@@ -31,7 +31,7 @@ public class SenPatientsAdapterTest {
 		patientNotification.setSuggestedAppointmentDate(DateUtil.toTimestamp(LocalDate.of(2025, 03, 28)));
 		patientNotification.setNotificationType(NotificationType.ON_ART_LESS_THAN_6_MONTHS);
 		
-		final SendPatientsAdapter patientsAdapter = new SendPatientsAdapter();
+		final SendPatientsToViamoAdapter patientsAdapter = new SendPatientsToViamoAdapter();
 		final Message message = patientsAdapter.send(Arrays.asList(patientNotification));
 		
 		Assert.assertEquals(MessageStatus.OK, message.getMessageStatus());

@@ -4,7 +4,7 @@
 package org.openmrs.module.smartnotifier.task;
 
 import org.openmrs.api.context.Context;
-import org.openmrs.module.smartnotifier.adapter.SendPatientsAdapter;
+import org.openmrs.module.smartnotifier.adapter.SendPatientsToViamoAdapter;
 import org.openmrs.module.smartnotifier.api.application.in.SendPatientsToBeNotifiedUseCase;
 import org.openmrs.module.smartnotifier.api.application.out.SendPatientPort;
 import org.openmrs.module.smartnotifier.api.common.BusinessException;
@@ -24,7 +24,7 @@ public class SendPatientsToNotifyTask extends AbstractTask {
 		final SendPatientsToBeNotifiedUseCase sendPatientsToBeNotifiedService = Context
 		        .getService(SendPatientsToBeNotifiedUseCase.class);
 		
-		final SendPatientPort sendPatientPort = new SendPatientsAdapter();
+		final SendPatientPort sendPatientPort = new SendPatientsToViamoAdapter();
 		
 		try {
 			SendPatientsToNotifyTask.log.info("Send patients to notify list process started");

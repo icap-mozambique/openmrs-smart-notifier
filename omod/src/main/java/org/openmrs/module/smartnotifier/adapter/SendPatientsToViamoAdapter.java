@@ -23,7 +23,7 @@ import org.openmrs.module.smartnotifier.dto.PatientNotificationDTO;
 /**
  * @author Stélio Moiane
  */
-public class SendPatientsAdapter implements SendPatientPort {
+public class SendPatientsToViamoAdapter implements SendPatientPort {
 	
 	@Override
 	public Message send(final List<PatientNotification> patientNotifications) throws BusinessException {
