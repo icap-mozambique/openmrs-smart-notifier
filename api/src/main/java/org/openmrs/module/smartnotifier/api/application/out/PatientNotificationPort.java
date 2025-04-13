@@ -1,13 +1,13 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.out;
+package org.openmrs.module.smartnotifier.api.application.out;
 
 import java.util.List;
 import java.util.Map;
 
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
 
 /**
  * @author Stélio Moiane

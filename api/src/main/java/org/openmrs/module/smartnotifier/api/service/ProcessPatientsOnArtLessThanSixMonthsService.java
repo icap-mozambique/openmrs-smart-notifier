@@ -10,16 +10,16 @@ import java.util.Map;
 
 import org.openmrs.Location;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.smartnotifier.api.application.ProcessPatientsOnArtLessThanSixMonthsUseCase;
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
-import org.openmrs.module.smartnotifier.api.model.NotificationType;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
-import org.openmrs.module.smartnotifier.api.out.PatientNotificationPort;
-import org.openmrs.module.smartnotifier.api.util.DateUtil;
-import org.openmrs.module.smartnotifier.api.util.ParamBuilder;
-import org.openmrs.module.smartnotifier.api.util.PhoneNumberValidator;
-import org.openmrs.module.smartnotifier.api.util.QueryUtil;
+import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtLessThanSixMonthsUseCase;
+import org.openmrs.module.smartnotifier.api.application.out.PatientNotificationPort;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
+import org.openmrs.module.smartnotifier.api.common.DateUtil;
+import org.openmrs.module.smartnotifier.api.common.PhoneNumberValidator;
+import org.openmrs.module.smartnotifier.api.domain.NotificationStatus;
+import org.openmrs.module.smartnotifier.api.domain.NotificationType;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
+import org.openmrs.module.smartnotifier.api.infrastructure.util.ParamBuilder;
+import org.openmrs.module.smartnotifier.api.infrastructure.util.QueryUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

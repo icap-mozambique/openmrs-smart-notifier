@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.util;
+package org.openmrs.module.smartnotifier.api.common;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.smartnotifier.api.infrastructure;
+package org.openmrs.module.smartnotifier.api.infrastructure.adapter;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -21,15 +21,15 @@ import org.hibernate.SQLQuery;
 import org.openmrs.Patient;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
-import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
-import org.openmrs.module.smartnotifier.api.out.PatientNotificationPort;
-import org.openmrs.module.smartnotifier.api.util.DateUtil;
+import org.openmrs.module.smartnotifier.api.application.out.PatientNotificationPort;
+import org.openmrs.module.smartnotifier.api.common.DateUtil;
+import org.openmrs.module.smartnotifier.api.domain.NotificationStatus;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("org.openmrs.module.smartnotifier.api.infrastructure.PatientNotificationDAO")
-public class PatientNotificationDAO implements PatientNotificationPort {
+@Repository("org.openmrs.module.smartnotifier.api.infrastructure.adapter.PatientNotificationAdapter")
+public class PatientNotificationAdapter implements PatientNotificationPort {
 	
 	@Autowired
 	private DbSessionFactory sessionFactory;

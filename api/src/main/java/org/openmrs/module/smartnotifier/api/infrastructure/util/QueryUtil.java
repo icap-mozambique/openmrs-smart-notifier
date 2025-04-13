@@ -1,14 +1,14 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.util;
+package org.openmrs.module.smartnotifier.api.infrastructure.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
 import org.openmrs.util.OpenmrsClassLoader;
 
 /**

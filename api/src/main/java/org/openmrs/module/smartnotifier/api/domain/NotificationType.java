@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.model;
+package org.openmrs.module.smartnotifier.api.domain;
 
 /**
  * @author Stélio Moiane

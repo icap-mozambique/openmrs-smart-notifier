@@ -11,11 +11,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Location;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase;
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
-import org.openmrs.module.smartnotifier.api.model.NotificationType;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
+import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
+import org.openmrs.module.smartnotifier.api.domain.NotificationStatus;
+import org.openmrs.module.smartnotifier.api.domain.NotificationType;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
 import org.openmrs.module.smartnotifier.util.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 

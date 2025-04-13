@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.util;
+package org.openmrs.module.smartnotifier.api.infrastructure.util;
 
 import java.util.HashMap;
 import java.util.Map;

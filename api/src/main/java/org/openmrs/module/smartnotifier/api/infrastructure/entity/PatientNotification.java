@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.model;
+package org.openmrs.module.smartnotifier.api.infrastructure.entity;
 
 import java.sql.Timestamp;
 
@@ -17,12 +17,14 @@ import javax.persistence.Table;
 
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Patient;
+import org.openmrs.module.smartnotifier.api.domain.NotificationStatus;
+import org.openmrs.module.smartnotifier.api.domain.NotificationType;
 
 /**
  * @author Stélio Moiane
  */
 
-@Entity(name = "smartnotifier.api.model.PatientNotification")
+@Entity(name = "smartnotifier.api.infrastructure.entity.PatientNotification")
 @Table(name = "patient_notifications")
 public class PatientNotification extends BaseOpenmrsData {
 	

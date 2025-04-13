@@ -13,11 +13,11 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
-import org.openmrs.module.smartnotifier.api.out.Message;
-import org.openmrs.module.smartnotifier.api.out.MessageStatus;
-import org.openmrs.module.smartnotifier.api.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.application.out.Message;
+import org.openmrs.module.smartnotifier.api.application.out.MessageStatus;
+import org.openmrs.module.smartnotifier.api.application.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
 import org.openmrs.module.smartnotifier.dto.PatientNotificationDTO;
 
 /**

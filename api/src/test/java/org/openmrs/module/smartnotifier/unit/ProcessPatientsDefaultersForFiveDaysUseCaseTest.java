@@ -13,15 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.openmrs.Location;
-import org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersForFiveDaysUseCase;
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
-import org.openmrs.module.smartnotifier.api.model.NotificationType;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
-import org.openmrs.module.smartnotifier.api.out.PatientNotificationPort;
+import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaultersForFiveDaysUseCase;
+import org.openmrs.module.smartnotifier.api.application.out.PatientNotificationPort;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
+import org.openmrs.module.smartnotifier.api.domain.NotificationStatus;
+import org.openmrs.module.smartnotifier.api.domain.NotificationType;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
+import org.openmrs.module.smartnotifier.api.infrastructure.util.ParamBuilder;
+import org.openmrs.module.smartnotifier.api.infrastructure.util.QueryUtil;
 import org.openmrs.module.smartnotifier.api.service.ProcessPatientsDefaultersForFiveDaysService;
-import org.openmrs.module.smartnotifier.api.util.ParamBuilder;
-import org.openmrs.module.smartnotifier.api.util.QueryUtil;
 import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
 
 /**

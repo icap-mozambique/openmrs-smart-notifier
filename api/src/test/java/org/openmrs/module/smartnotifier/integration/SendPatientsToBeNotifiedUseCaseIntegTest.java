@@ -10,14 +10,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.openmrs.module.smartnotifier.api.application.SendPatientsToBeNotifiedUseCase;
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.infrastructure.PatientNotificationDAO;
-import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
-import org.openmrs.module.smartnotifier.api.out.Message;
-import org.openmrs.module.smartnotifier.api.out.MessageStatus;
-import org.openmrs.module.smartnotifier.api.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.application.in.SendPatientsToBeNotifiedUseCase;
+import org.openmrs.module.smartnotifier.api.application.out.Message;
+import org.openmrs.module.smartnotifier.api.application.out.MessageStatus;
+import org.openmrs.module.smartnotifier.api.application.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
+import org.openmrs.module.smartnotifier.api.domain.NotificationStatus;
+import org.openmrs.module.smartnotifier.api.infrastructure.adapter.PatientNotificationAdapter;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
 import org.openmrs.module.smartnotifier.util.AbstractIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,7 +30,7 @@ public class SendPatientsToBeNotifiedUseCaseIntegTest extends AbstractIntegratio
 	private SendPatientsToBeNotifiedUseCase sendPatientsToBeNotifiedService;
 	
 	@Autowired
-	private PatientNotificationDAO patientNotificationDAO;
+	private PatientNotificationAdapter patientNotificationDAO;
 	
 	@Mock
 	private SendPatientPort sendPatientPort;

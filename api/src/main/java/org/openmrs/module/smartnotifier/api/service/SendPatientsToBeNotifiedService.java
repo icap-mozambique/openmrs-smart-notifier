@@ -6,14 +6,14 @@ package org.openmrs.module.smartnotifier.api.service;
 import java.util.List;
 
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.smartnotifier.api.application.SendPatientsToBeNotifiedUseCase;
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.model.NotificationStatus;
-import org.openmrs.module.smartnotifier.api.model.PatientNotification;
-import org.openmrs.module.smartnotifier.api.out.Message;
-import org.openmrs.module.smartnotifier.api.out.MessageStatus;
-import org.openmrs.module.smartnotifier.api.out.PatientNotificationPort;
-import org.openmrs.module.smartnotifier.api.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.application.in.SendPatientsToBeNotifiedUseCase;
+import org.openmrs.module.smartnotifier.api.application.out.Message;
+import org.openmrs.module.smartnotifier.api.application.out.MessageStatus;
+import org.openmrs.module.smartnotifier.api.application.out.PatientNotificationPort;
+import org.openmrs.module.smartnotifier.api.application.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
+import org.openmrs.module.smartnotifier.api.domain.NotificationStatus;
+import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

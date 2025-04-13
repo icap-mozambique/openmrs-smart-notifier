@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.openmrs.module.smartnotifier.api.util;
+package org.openmrs.module.smartnotifier.api.common;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;

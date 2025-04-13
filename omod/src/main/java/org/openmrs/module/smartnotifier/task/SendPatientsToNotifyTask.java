@@ -5,9 +5,9 @@ package org.openmrs.module.smartnotifier.task;
 
 import org.openmrs.api.context.Context;
 import org.openmrs.module.smartnotifier.adapter.SendPatientsAdapter;
-import org.openmrs.module.smartnotifier.api.application.SendPatientsToBeNotifiedUseCase;
-import org.openmrs.module.smartnotifier.api.exception.BusinessException;
-import org.openmrs.module.smartnotifier.api.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.application.in.SendPatientsToBeNotifiedUseCase;
+import org.openmrs.module.smartnotifier.api.application.out.SendPatientPort;
+import org.openmrs.module.smartnotifier.api.common.BusinessException;
 import org.openmrs.scheduler.tasks.AbstractTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

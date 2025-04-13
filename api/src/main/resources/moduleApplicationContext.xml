@@ -51,7 +51,7 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.smartnotifier.api.application.ProcessPatientsOnArtLessThanSixMonthsUseCase</value>
+				<value>org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtLessThanSixMonthsUseCase</value>
 				<ref bean="smartnotifier.ProcessPatientsOnArtLessThanSixMonthsUseCase" />
 			</list>
 		</property>
@@ -60,7 +60,7 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.smartnotifier.api.application.SendPatientsToBeNotifiedUseCase</value>
+				<value>org.openmrs.module.smartnotifier.api.application.in.SendPatientsToBeNotifiedUseCase</value>
 				<ref bean="smartnotifier.SendPatientsToBeNotifiedUseCase" />
 			</list>
 		</property>
@@ -69,7 +69,7 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersForFiveDaysUseCase</value>
+				<value>org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaultersForFiveDaysUseCase</value>
 				<ref bean="smartnotifier.ProcessPatientsDefaultersForFiveDaysUseCase" />
 			</list>
 		</property>
@@ -78,7 +78,7 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.smartnotifier.api.application.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase</value>
+				<value>org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase</value>
 				<ref bean="smartnotifier.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase" />
 			</list>
 		</property>
