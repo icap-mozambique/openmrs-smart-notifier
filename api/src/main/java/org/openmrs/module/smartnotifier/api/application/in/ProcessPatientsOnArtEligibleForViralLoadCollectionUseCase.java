@@ -12,12 +12,11 @@ import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotific
 
 /**
  * @author Stélio Moiane
- *
  */
 public interface ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase {
-
+	
 	String PATIENTS_OR_ART_AND_ELIGIBLE_FOR_VL_COLLECTION = "NOTIFICATION/PATIENTS_OR_ART_AND_ELIGIBLE_FOR_VL_COLLECTION.sql";
-
+	
 	List<PatientNotification> process(LocalDate endDate, Location location) throws BusinessException;
-
+	
 }

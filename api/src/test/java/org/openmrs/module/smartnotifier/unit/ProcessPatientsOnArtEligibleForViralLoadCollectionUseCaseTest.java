@@ -25,40 +25,41 @@ import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
 
 /**
  * @author Stélio Moiane
- *
  */
 public class ProcessPatientsOnArtEligibleForViralLoadCollectionUseCaseTest extends AbstractUnitTest {
-
+	
 	@InjectMocks
 	private ProcessPatientsOnArtEligibleForViralLoadCollectionService processPatientsOnArtEligibleForViralLoadCollectionUseCase;
-
+	
 	@Mock
 	private PatientNotificationPort patientNotificationPort;
-
+	
 	@Test
 	public void shouldProcessPatientsOnArtEligibleForViralLoadCollection() throws BusinessException {
-
+		
 		final LocalDate localDate = LocalDate.now();
 		final Location location = new Location();
-
+		
 		final PatientNotification patientNotification = new PatientNotification();
 		patientNotification.setPhoneNumber("822546100");
-
-		Mockito.when(this.patientNotificationPort.getPatientsToNotify(
-				ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase.PATIENTS_OR_ART_AND_ELIGIBLE_FOR_VL_COLLECTION,
-				new ParamBuilder().add("endDate", localDate).add("location", location.getId()).getParams()))
-		.thenReturn(Arrays.asList(patientNotification));
-
-		final List<PatientNotification> patientsToNotify = this.processPatientsOnArtEligibleForViralLoadCollectionUseCase.process(localDate,
-				location);
-
+		
+		Mockito.when(
+		    this.patientNotificationPort.getPatientsToNotify(
+		        ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase.PATIENTS_OR_ART_AND_ELIGIBLE_FOR_VL_COLLECTION,
+		        new ParamBuilder().add("endDate", localDate).add("location", location.getId()).getParams())).thenReturn(
+		    Arrays.asList(patientNotification));
+		
+		final List<PatientNotification> patientsToNotify = this.processPatientsOnArtEligibleForViralLoadCollectionUseCase
+		        .process(localDate, location);
+		
 		Assert.assertFalse(patientsToNotify.isEmpty());
-
+		
 		for (final PatientNotification notification : patientsToNotify) {
-
+			
 			Assert.assertEquals(NotificationStatus.PENDING, notification.getNotificationStatus());
-			Assert.assertEquals(NotificationType.ON_ART_ELIGIBLE_FOR_VIRAL_LOAD_COLLECTION, notification.getNotificationType());
-
+			Assert.assertEquals(NotificationType.ON_ART_ELIGIBLE_FOR_VIRAL_LOAD_COLLECTION,
+			    notification.getNotificationType());
+			
 			Mockito.verify(this.patientNotificationPort, Mockito.times(1)).savePatientNotification(notification);
 		}
 	}

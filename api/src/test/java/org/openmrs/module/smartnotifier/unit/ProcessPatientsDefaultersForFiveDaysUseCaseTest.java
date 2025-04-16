@@ -27,38 +27,37 @@ import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
  * @author Stélio Moiane
  */
 public class ProcessPatientsDefaultersForFiveDaysUseCaseTest extends AbstractUnitTest {
-
+	
 	@InjectMocks
 	private ProcessPatientsDefaultersForFiveDaysService processPatientDefaultersForFiveDaysUseCase;
-
+	
 	@Mock
 	private PatientNotificationPort paNotificationPort;
-
+	
 	@Test
 	public void shouldProcessPatientsDefaultersForFiveDays() throws BusinessException {
-
+		
 		final LocalDate localDate = LocalDate.now();
 		final Location location = new Location();
-
+		
 		final PatientNotification patientNotification = new PatientNotification();
 		patientNotification.setPhoneNumber("840546824");
-
+		
 		Mockito.when(
-				this.paNotificationPort.getPatientsToNotify(
-						ProcessPatientsDefaultersForFiveDaysUseCase.PATIENTS_DEFAULTERS_FOR_FIVE_DAYS,
-						new ParamBuilder().add("endDate", localDate).add("location", location.getId()).getParams()))
-		.thenReturn(
-				Arrays.asList(patientNotification));
-
+		    this.paNotificationPort.getPatientsToNotify(
+		        ProcessPatientsDefaultersForFiveDaysUseCase.PATIENTS_DEFAULTERS_FOR_FIVE_DAYS,
+		        new ParamBuilder().add("endDate", localDate).add("location", location.getId()).getParams())).thenReturn(
+		    Arrays.asList(patientNotification));
+		
 		final List<PatientNotification> patientNotifications = this.processPatientDefaultersForFiveDaysUseCase.process(
-				localDate, location);
-
+		    localDate, location);
+		
 		Assert.assertFalse(patientNotifications.isEmpty());
-
+		
 		for (final PatientNotification notification : patientNotifications) {
 			Assert.assertEquals(NotificationType.DEFAULTERS_FOR_FIVE_DAYS, notification.getNotificationType());
 			Assert.assertEquals(NotificationStatus.PENDING, notification.getNotificationStatus());
-
+			
 			Mockito.verify(this.paNotificationPort, Mockito.times(1)).savePatientNotification(notification);
 		}
 	}

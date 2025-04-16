@@ -20,37 +20,38 @@ import org.slf4j.LoggerFactory;
  * @author Stélio Moiane
  */
 public class LoadPatientsEligibleToNotificationsTask extends AbstractTask {
-
+	
 	private static final Logger log = LoggerFactory.getLogger(LoadPatientsEligibleToNotificationsTask.class);
-
+	
 	@Override
 	public void execute() {
-
+		
 		final ProcessPatientsOnArtLessThanSixMonthsUseCase processPatientsOnArtLessThanSixMonthsService = Context
-				.getService(ProcessPatientsOnArtLessThanSixMonthsUseCase.class);
-
+		        .getService(ProcessPatientsOnArtLessThanSixMonthsUseCase.class);
+		
 		final ProcessPatientsDefaultersForFiveDaysUseCase processPatientsDefaultersForFiveDaysUseCase = Context
-				.getService(ProcessPatientsDefaultersForFiveDaysUseCase.class);
-
+		        .getService(ProcessPatientsDefaultersForFiveDaysUseCase.class);
+		
 		final ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase processPatientsDefaultersButNotifiedThreeDaysAgoUseCase = Context
-				.getService(ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase.class);
-
+		        .getService(ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase.class);
+		
 		final ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase processPatientsOnArtEligibleForViralLoadCollectionUseCase = Context
-				.getService(ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase.class);
-
+		        .getService(ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase.class);
+		
 		final Location location = Context.getLocationService().getDefaultLocation();
 		final LocalDate now = LocalDate.now();
-
+		
 		try {
 			LoadPatientsEligibleToNotificationsTask.log.info("The load patients task started.....");
-
+			
 			processPatientsOnArtLessThanSixMonthsService.process(now, location);
 			processPatientsDefaultersForFiveDaysUseCase.process(now, location);
 			processPatientsDefaultersButNotifiedThreeDaysAgoUseCase.process(now, location);
 			processPatientsOnArtEligibleForViralLoadCollectionUseCase.process(now, location);
-
+			
 			LoadPatientsEligibleToNotificationsTask.log.info("The load patients task finished.....");
-		} catch (final BusinessException e) {
+		}
+		catch (final BusinessException e) {
 			LoadPatientsEligibleToNotificationsTask.log.error(e.getMessage());
 			e.printStackTrace();
 		}

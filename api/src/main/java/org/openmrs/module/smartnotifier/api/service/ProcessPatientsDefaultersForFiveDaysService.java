@@ -24,33 +24,33 @@ import org.springframework.stereotype.Service;
  */
 @Service("smartnotifier.ProcessPatientsDefaultersForFiveDaysUseCase")
 public class ProcessPatientsDefaultersForFiveDaysService extends BaseOpenmrsService implements ProcessPatientsDefaultersForFiveDaysUseCase {
-
+	
 	private PatientNotificationPort patientNotificationPort;
-
+	
 	@Autowired
 	public ProcessPatientsDefaultersForFiveDaysService(final PatientNotificationPort patientNotificationPort) {
 		this.patientNotificationPort = patientNotificationPort;
 	}
-
+	
 	@Override
 	public List<PatientNotification> process(final LocalDate endDate, final Location location) throws BusinessException {
-
+		
 		final List<PatientNotification> patientsToNotify = this.patientNotificationPort.getPatientsToNotify(
-				ProcessPatientsDefaultersForFiveDaysUseCase.PATIENTS_DEFAULTERS_FOR_FIVE_DAYS,
-				new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams());
-
+		    ProcessPatientsDefaultersForFiveDaysUseCase.PATIENTS_DEFAULTERS_FOR_FIVE_DAYS,
+		    new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams());
+		
 		for (final PatientNotification notification : patientsToNotify) {
 			notification.setNotificationStatus(NotificationStatus.PENDING);
 			notification.setNotificationType(NotificationType.DEFAULTERS_FOR_FIVE_DAYS);
 			notification.setSuggestedAppointmentDate(notification.getAppointmentDate());
-
+			
 			if (!PhoneNumberValidator.isValidate(notification.getPhoneNumber())) {
 				notification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
-
+			
 			this.patientNotificationPort.savePatientNotification(notification);
 		}
-
+		
 		return patientsToNotify;
 	}
 }

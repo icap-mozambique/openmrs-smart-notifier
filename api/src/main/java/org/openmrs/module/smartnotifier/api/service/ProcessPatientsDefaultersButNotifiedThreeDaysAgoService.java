@@ -25,34 +25,33 @@ import org.springframework.stereotype.Service;
 
 @Service("smartnotifier.ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase")
 public class ProcessPatientsDefaultersButNotifiedThreeDaysAgoService extends BaseOpenmrsService implements ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase {
-
+	
 	private PatientNotificationPort patientNotificationPort;
-
+	
 	@Autowired
 	public ProcessPatientsDefaultersButNotifiedThreeDaysAgoService(final PatientNotificationPort patientNotificationPort) {
 		this.patientNotificationPort = patientNotificationPort;
 	}
-
+	
 	@Override
 	public List<PatientNotification> process(final LocalDate endDate, final Location location) throws BusinessException {
-
-		final List<PatientNotification> patientsToNotify = this.patientNotificationPort
-				.getPatientsToNotify(
-						ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase.PATIENTS_DEFAULTERS_BUT_NOTIFIED_THREE_DAYS_AGO,
-						new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams());
-
+		
+		final List<PatientNotification> patientsToNotify = this.patientNotificationPort.getPatientsToNotify(
+		    ProcessPatientsDefaultersButNotifiedThreeDaysAgoUseCase.PATIENTS_DEFAULTERS_BUT_NOTIFIED_THREE_DAYS_AGO,
+		    new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams());
+		
 		for (final PatientNotification patientNotification : patientsToNotify) {
 			patientNotification.setNotificationStatus(NotificationStatus.PENDING);
 			patientNotification.setNotificationType(NotificationType.DEFULTERS_NOTIFIED_THREE_DAYS_AGO);
 			patientNotification.setSuggestedAppointmentDate(patientNotification.getAppointmentDate());
-
+			
 			if (!PhoneNumberValidator.isValidate(patientNotification.getPhoneNumber())) {
 				patientNotification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
-
+			
 			this.patientNotificationPort.savePatientNotification(patientNotification);
 		}
-
+		
 		return patientsToNotify;
 	}
 }

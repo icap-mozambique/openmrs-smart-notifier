@@ -29,42 +29,41 @@ import org.openmrs.module.smartnotifier.util.AbstractUnitTest;
  */
 
 public class ProcessPatientsOnArtLessThanSixMonthsServiceTest extends AbstractUnitTest {
-
+	
 	@InjectMocks
 	private ProcessPatientsOnArtLessThanSixMonthsService patientsOnArtLessThanSixMonthsService;
-
+	
 	@Mock
 	private PatientNotificationPort patientNotificationPort;
-
+	
 	@Test
 	public void shouldProcessPatientsOnArtLessThanSixMonths() throws BusinessException {
-
+		
 		final LocalDate endDate = LocalDate.now();
 		final Location location = new Location();
 		final LocalDate appointmentDate = LocalDate.of(2025, 03, 22);
-
+		
 		final PatientNotification patientNotification = new PatientNotification();
 		patientNotification.setAppointmentDate(DateUtil.toTimestamp(appointmentDate));
 		patientNotification.setPhoneNumber("840546824 ");
-
+		
 		Mockito.when(
-				this.patientNotificationPort.getPatientsToNotify(
-						ProcessPatientsOnArtLessThanSixMonthsUseCase.PATIENTS_ON_ART_LESS_THAN_SIX_MONTHS,
-						new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams()))
-		.thenReturn(
-				Arrays.asList(patientNotification));
-
+		    this.patientNotificationPort.getPatientsToNotify(
+		        ProcessPatientsOnArtLessThanSixMonthsUseCase.PATIENTS_ON_ART_LESS_THAN_SIX_MONTHS,
+		        new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams())).thenReturn(
+		    Arrays.asList(patientNotification));
+		
 		final List<PatientNotification> patientNotifications = this.patientsOnArtLessThanSixMonthsService.process(endDate,
-				location);
-
+		    location);
+		
 		Assert.assertFalse(patientNotifications.isEmpty());
-
+		
 		for (final PatientNotification notification : patientNotifications) {
 			Assert.assertEquals(appointmentDate.minusDays(1),
-					DateUtil.toLocalDate(notification.getSuggestedAppointmentDate()));
+			    DateUtil.toLocalDate(notification.getSuggestedAppointmentDate()));
 			Assert.assertEquals(NotificationType.ON_ART_LESS_THAN_6_MONTHS, notification.getNotificationType());
 			Assert.assertEquals(NotificationStatus.PENDING, notification.getNotificationStatus());
-
+			
 			Mockito.verify(this.patientNotificationPort, Mockito.times(1)).savePatientNotification(patientNotification);
 		}
 	}

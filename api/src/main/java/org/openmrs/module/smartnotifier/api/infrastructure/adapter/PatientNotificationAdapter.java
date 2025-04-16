@@ -32,68 +32,69 @@ import org.springframework.stereotype.Repository;
 
 @Repository("org.openmrs.module.smartnotifier.api.infrastructure.adapter.PatientNotificationAdapter")
 public class PatientNotificationAdapter implements PatientNotificationPort {
-
+	
 	@Autowired
 	private DbSessionFactory sessionFactory;
-
+	
 	private DbSession getSession() {
 		return this.sessionFactory.getCurrentSession();
 	}
-
+	
 	@Override
 	public PatientNotification savePatientNotification(final PatientNotification patientNotification) {
 		this.getSession().saveOrUpdate(patientNotification);
 		return patientNotification;
 	}
-
+	
 	@Override
-	public List<PatientNotification> getPatientsToNotify(final String query, final Map<String, Object> params) throws BusinessException {
-
+	public List<PatientNotification> getPatientsToNotify(final String query, final Map<String, Object> params)
+	        throws BusinessException {
+		
 		final SQLQuery sqlQuery = this.getSession().createSQLQuery(QueryUtil.loadQuery(query));
-
+		
 		for (final Entry<String, Object> param : params.entrySet()) {
-
+			
 			sqlQuery.setParameter(param.getKey(), param.getValue());
-
+			
 			if (param.getValue() instanceof LocalDate) {
 				sqlQuery.setParameter(param.getKey(), DateUtil.toTimestamp((LocalDate) param.getValue()));
 			}
 		}
-
+		
 		@SuppressWarnings("unchecked")
 		final List<Object[]> result = sqlQuery.list();
-
+		
 		final List<PatientNotification> patientNotifications = new ArrayList<PatientNotification>();
-
+		
 		for (final Object[] row : result) {
 			final PatientNotification notification = new PatientNotification();
 			final Patient patient = new Patient();
-
+			
 			patient.setId((Integer) row[0]);
-
+			
 			notification.setPatient(patient);
 			notification.setIdentifier((String) row[1]);
 			notification.setArtStartDate((Timestamp) row[2]);
 			notification.setPhoneNumber((String) row[3]);
 			notification.setAppointmentDate((Timestamp) row[4]);
-
+			
 			patientNotifications.add(notification);
-
+			
 		}
-
+		
 		return patientNotifications;
 	}
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<PatientNotification> getPendingPatientNotifications() {
-
+		
 		final Query query = this
-				.getSession()
-				.createQuery(
-						"SELECT pn FROM smartnotifier.api.model.PatientNotification pn WHERE pn.notificationStatus = :notificationStatus");
+		        .getSession()
+		        .createQuery(
+		            "SELECT pn FROM smartnotifier.api.model.PatientNotification pn WHERE pn.notificationStatus = :notificationStatus");
 		query.setParameter("notificationStatus", NotificationStatus.PENDING);
-
+		
 		return query.list();
 	}
 }
