@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.openmrs.Location;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaultersForFiveDaysUseCase;
+import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase;
 import org.openmrs.module.smartnotifier.api.application.out.PatientNotificationPort;
 import org.openmrs.module.smartnotifier.api.common.BusinessException;
 import org.openmrs.module.smartnotifier.api.common.ParamBuilder;
@@ -21,14 +21,16 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Stélio Moiane
+ *
  */
-@Service("smartnotifier.ProcessPatientsDefaultersForFiveDaysUseCase")
-public class ProcessPatientsDefaultersForFiveDaysService extends BaseOpenmrsService implements ProcessPatientsDefaultersForFiveDaysUseCase {
+@Service("smartnotifier.ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase")
+public class ProcessPatientsOnArtEligibleForViralLoadCollectionService extends BaseOpenmrsService
+implements ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase {
 
 	private PatientNotificationPort patientNotificationPort;
 
 	@Autowired
-	public ProcessPatientsDefaultersForFiveDaysService(final PatientNotificationPort patientNotificationPort) {
+	public ProcessPatientsOnArtEligibleForViralLoadCollectionService(final PatientNotificationPort patientNotificationPort) {
 		this.patientNotificationPort = patientNotificationPort;
 	}
 
@@ -36,19 +38,19 @@ public class ProcessPatientsDefaultersForFiveDaysService extends BaseOpenmrsServ
 	public List<PatientNotification> process(final LocalDate endDate, final Location location) throws BusinessException {
 
 		final List<PatientNotification> patientsToNotify = this.patientNotificationPort.getPatientsToNotify(
-				ProcessPatientsDefaultersForFiveDaysUseCase.PATIENTS_DEFAULTERS_FOR_FIVE_DAYS,
+				ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase.PATIENTS_OR_ART_AND_ELIGIBLE_FOR_VL_COLLECTION,
 				new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams());
 
-		for (final PatientNotification notification : patientsToNotify) {
-			notification.setNotificationStatus(NotificationStatus.PENDING);
-			notification.setNotificationType(NotificationType.DEFAULTERS_FOR_FIVE_DAYS);
-			notification.setSuggestedAppointmentDate(notification.getAppointmentDate());
+		for (final PatientNotification patientNotification : patientsToNotify) {
+			patientNotification.setNotificationStatus(NotificationStatus.PENDING);
+			patientNotification.setSuggestedAppointmentDate(patientNotification.getAppointmentDate());
+			patientNotification.setNotificationType(NotificationType.ON_ART_ELIGIBLE_FOR_VIRAL_LOAD_COLLECTION);
 
-			if (!PhoneNumberValidator.isValidate(notification.getPhoneNumber())) {
-				notification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
+			if (!PhoneNumberValidator.isValidate(patientNotification.getPhoneNumber())) {
+				patientNotification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
 
-			this.patientNotificationPort.savePatientNotification(notification);
+			this.patientNotificationPort.savePatientNotification(patientNotification);
 		}
 
 		return patientsToNotify;
