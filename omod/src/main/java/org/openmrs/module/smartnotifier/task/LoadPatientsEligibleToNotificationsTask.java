@@ -11,6 +11,7 @@ import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaul
 import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaultersForFiveDaysUseCase;
 import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase;
 import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtLessThanSixMonthsUseCase;
+import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase;
 import org.openmrs.module.smartnotifier.api.common.BusinessException;
 import org.openmrs.scheduler.tasks.AbstractTask;
 import org.slf4j.Logger;
@@ -38,6 +39,9 @@ public class LoadPatientsEligibleToNotificationsTask extends AbstractTask {
 		final ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase processPatientsOnArtEligibleForViralLoadCollectionUseCase = Context
 		        .getService(ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase.class);
 		
+		final ProcessPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase processPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase = Context
+		        .getService(ProcessPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase.class);
+		
 		final Location location = Context.getLocationService().getDefaultLocation();
 		final LocalDate now = LocalDate.now();
 		
@@ -48,6 +52,7 @@ public class LoadPatientsEligibleToNotificationsTask extends AbstractTask {
 			processPatientsDefaultersForFiveDaysUseCase.process(now, location);
 			processPatientsDefaultersButNotifiedThreeDaysAgoUseCase.process(now, location);
 			processPatientsOnArtEligibleForViralLoadCollectionUseCase.process(now, location);
+			processPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase.process(now, location);
 			
 			LoadPatientsEligibleToNotificationsTask.log.info("The load patients task finished.....");
 		}

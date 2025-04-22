@@ -13,6 +13,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.openmrs.api.context.Context;
 import org.openmrs.module.smartnotifier.api.application.out.Message;
 import org.openmrs.module.smartnotifier.api.application.out.MessageStatus;
 import org.openmrs.module.smartnotifier.api.application.out.SendPatientPort;
@@ -25,15 +26,19 @@ import org.openmrs.module.smartnotifier.dto.PatientNotificationDTO;
  */
 public class SendPatientsToViamoAdapter implements SendPatientPort {
 	
+	private static final int DATIM_CODE = 2;
+	
 	@Override
 	public Message send(final List<PatientNotification> patientNotifications) throws BusinessException {
 
 		final Client client = ClientBuilder
 				.newClient();
 
+		final String healthFacilityCode = this.getHealthFacilityCode();
+
 		final List<PatientNotificationDTO> patientNotificationDTOs = patientNotifications.stream()
 				.map(notification -> new PatientNotificationDTO(notification.getPhoneNumber(), notification.getNotificationType().getValue(),
-						notification.getSuggestedAppointmentDate().toLocalDateTime().toLocalDate().toString()))
+						notification.getSuggestedAppointmentDate().toLocalDateTime().toLocalDate().toString(), healthFacilityCode))
 				.collect(Collectors.toList());
 
 		try {
@@ -52,5 +57,13 @@ public class SendPatientsToViamoAdapter implements SendPatientPort {
 		}
 
 		return new Message(MessageStatus.FAILED, "Failed...");
+	}
+	
+	private String getHealthFacilityCode() {
+		return Context.getLocationService().getDefaultLocation().getAttributes().stream()
+				.filter(attribute -> attribute.getAttributeType().getLocationAttributeTypeId() == SendPatientsToViamoAdapter.DATIM_CODE)
+				.findAny()
+				.get()
+				.getValueReference();
 	}
 }

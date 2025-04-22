@@ -92,7 +92,7 @@ public class PatientNotificationAdapter implements PatientNotificationPort {
 		final Query query = this
 		        .getSession()
 		        .createQuery(
-		            "SELECT pn FROM smartnotifier.api.model.PatientNotification pn WHERE pn.notificationStatus = :notificationStatus");
+		            "SELECT pn FROM smartnotifier.api.infrastructure.entity.PatientNotification pn WHERE pn.notificationStatus = :notificationStatus");
 		query.setParameter("notificationStatus", NotificationStatus.PENDING);
 		
 		return query.list();

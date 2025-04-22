@@ -20,7 +20,8 @@ public class PatientNotificationDTO {
 	
 	private PropertyDTO property;
 	
-	public PatientNotificationDTO(final String phone, final String groups, final String appointmentDate) {
+	public PatientNotificationDTO(final String phone, final String groups, final String appointmentDate,
+	    final String healthFacilityCode) {
 		this.phone = phone;
 		this.groups = groups;
 		
@@ -28,7 +29,7 @@ public class PatientNotificationDTO {
 		this.receive_sms = "1";
 		this.active = "1";
 		
-		this.property = new PropertyDTO(appointmentDate);
+		this.property = new PropertyDTO(appointmentDate, healthFacilityCode);
 	}
 	
 	public String getPhone() {
