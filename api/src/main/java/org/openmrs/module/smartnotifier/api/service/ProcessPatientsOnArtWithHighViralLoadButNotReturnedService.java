@@ -24,36 +24,35 @@ import org.springframework.stereotype.Service;
  */
 
 @Service("smartnotifier.ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase")
-public class ProcessPatientsOnArtWithHighViralLoadButNotReturnedService extends BaseOpenmrsService
-implements ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase {
-
+public class ProcessPatientsOnArtWithHighViralLoadButNotReturnedService extends BaseOpenmrsService implements ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase {
+	
 	private PatientNotificationPort patientNotificationPort;
-
+	
 	@Autowired
 	public ProcessPatientsOnArtWithHighViralLoadButNotReturnedService(final PatientNotificationPort patientNotificationPort) {
 		this.patientNotificationPort = patientNotificationPort;
 	}
-
+	
 	@Override
 	public List<PatientNotification> process(final LocalDate endDate, final Location location) throws BusinessException {
-
+		
 		final List<PatientNotification> patientsToNotify = this.patientNotificationPort
-				.getPatientsToNotify(
-						ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase.PATIENTS_ON_ART_WITH_HIGH_VL_NOTIFIED_BUT_NOT_RETURNED,
-						new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams());
-
+		        .getPatientsToNotify(
+		            ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase.PATIENTS_ON_ART_WITH_HIGH_VL_NOTIFIED_BUT_NOT_RETURNED,
+		            new ParamBuilder().add("endDate", endDate).add("location", location.getId()).getParams());
+		
 		for (final PatientNotification patientNotification : patientsToNotify) {
 			patientNotification.setNotificationType(NotificationType.ON_ART_WITH_HIGH_VIRAL_LOAD_NOT_RETURNED);
 			patientNotification.setNotificationStatus(NotificationStatus.PENDING);
 			patientNotification.setSuggestedAppointmentDate(patientNotification.getAppointmentDate());
-
+			
 			if (!PhoneNumberValidator.isValid(patientNotification.getPhoneNumber())) {
 				patientNotification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
-
+			
 			this.patientNotificationPort.savePatientNotification(patientNotification);
 		}
-
+		
 		return patientsToNotify;
 	}
 }
