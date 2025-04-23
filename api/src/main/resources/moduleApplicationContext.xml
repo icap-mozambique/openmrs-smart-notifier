@@ -101,5 +101,23 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list>
+				<value>org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtWithHighViralLoadUseCase</value>
+				<ref bean="smartnotifier.ProcessPatientsOnArtWithHighViralLoadUseCase" />
+			</list>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list>
+				<value>org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase</value>
+				<ref bean="smartnotifier.ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase" />
+			</list>
+		</property>
+	</bean>
 
 </beans>

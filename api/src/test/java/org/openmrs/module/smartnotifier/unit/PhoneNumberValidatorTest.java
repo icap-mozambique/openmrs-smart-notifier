@@ -15,7 +15,7 @@ public class PhoneNumberValidatorTest extends AbstractUnitTest {
 	
 	@Test
 	public void shouldValidatePhoneNumber() {
-		final Boolean isValid = PhoneNumberValidator.isValidate("840546824");
+		final Boolean isValid = PhoneNumberValidator.isValid("840546824");
 		
 		Assert.assertTrue(isValid);
 	}

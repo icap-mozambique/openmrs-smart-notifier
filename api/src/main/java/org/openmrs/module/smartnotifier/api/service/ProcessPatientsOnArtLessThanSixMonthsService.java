@@ -59,7 +59,7 @@ public class ProcessPatientsOnArtLessThanSixMonthsService extends BaseOpenmrsSer
 				appointmentDate = appointmentDate.minusDays(2);
 			}
 			
-			if (!PhoneNumberValidator.isValidate(patientNotification.getPhoneNumber())) {
+			if (!PhoneNumberValidator.isValid(patientNotification.getPhoneNumber())) {
 				patientNotification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
 			

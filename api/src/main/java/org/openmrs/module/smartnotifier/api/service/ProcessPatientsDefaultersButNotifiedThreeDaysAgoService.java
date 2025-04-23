@@ -45,7 +45,7 @@ public class ProcessPatientsDefaultersButNotifiedThreeDaysAgoService extends Bas
 			patientNotification.setNotificationType(NotificationType.DEFULTERS_NOTIFIED_THREE_DAYS_AGO);
 			patientNotification.setSuggestedAppointmentDate(patientNotification.getAppointmentDate());
 			
-			if (!PhoneNumberValidator.isValidate(patientNotification.getPhoneNumber())) {
+			if (!PhoneNumberValidator.isValid(patientNotification.getPhoneNumber())) {
 				patientNotification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
 			

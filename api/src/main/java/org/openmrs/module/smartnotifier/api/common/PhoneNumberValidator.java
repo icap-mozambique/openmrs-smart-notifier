@@ -13,7 +13,7 @@ public class PhoneNumberValidator {
 	
 	private static final String PHONE_NUMBER_PATTERN = "^[0-9]{9}$";
 	
-	public static Boolean isValidate(final String phoneNumber) {
+	public static Boolean isValid(final String phoneNumber) {
 		
 		if (phoneNumber == null) {
 			return Boolean.FALSE;

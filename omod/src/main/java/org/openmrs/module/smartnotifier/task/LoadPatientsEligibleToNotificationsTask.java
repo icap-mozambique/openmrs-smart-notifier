@@ -11,6 +11,8 @@ import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaul
 import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsDefaultersForFiveDaysUseCase;
 import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtEligibleForViralLoadCollectionUseCase;
 import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtLessThanSixMonthsUseCase;
+import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase;
+import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsOnArtWithHighViralLoadUseCase;
 import org.openmrs.module.smartnotifier.api.application.in.ProcessPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase;
 import org.openmrs.module.smartnotifier.api.common.BusinessException;
 import org.openmrs.scheduler.tasks.AbstractTask;
@@ -42,6 +44,12 @@ public class LoadPatientsEligibleToNotificationsTask extends AbstractTask {
 		final ProcessPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase processPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase = Context
 		        .getService(ProcessPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase.class);
 		
+		final ProcessPatientsOnArtWithHighViralLoadUseCase processPatientsOnArtWithHighViralLoadUseCase = Context
+		        .getService(ProcessPatientsOnArtWithHighViralLoadUseCase.class);
+		
+		final ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase processPatientsOnArtWithHighViralLoadButNotReturnedUseCase = Context
+		        .getService(ProcessPatientsOnArtWithHighViralLoadButNotReturnedUseCase.class);
+		
 		final Location location = Context.getLocationService().getDefaultLocation();
 		final LocalDate now = LocalDate.now();
 		
@@ -49,10 +57,18 @@ public class LoadPatientsEligibleToNotificationsTask extends AbstractTask {
 			LoadPatientsEligibleToNotificationsTask.log.info("The load patients task started.....");
 			
 			processPatientsOnArtLessThanSixMonthsService.process(now, location);
+			
 			processPatientsDefaultersForFiveDaysUseCase.process(now, location);
+			
 			processPatientsDefaultersButNotifiedThreeDaysAgoUseCase.process(now, location);
+			
 			processPatientsOnArtEligibleForViralLoadCollectionUseCase.process(now, location);
+			
 			processPatientsWithTwoConsecutivesPickupsWithoutConsultationUseCase.process(now, location);
+			
+			processPatientsOnArtWithHighViralLoadUseCase.process(now, location);
+			
+			processPatientsOnArtWithHighViralLoadButNotReturnedUseCase.process(now, location);
 			
 			LoadPatientsEligibleToNotificationsTask.log.info("The load patients task finished.....");
 		}

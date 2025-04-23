@@ -44,7 +44,7 @@ public class ProcessPatientsOnArtEligibleForViralLoadCollectionService extends B
 			patientNotification.setSuggestedAppointmentDate(patientNotification.getAppointmentDate());
 			patientNotification.setNotificationType(NotificationType.ON_ART_ELIGIBLE_FOR_VIRAL_LOAD_COLLECTION);
 			
-			if (!PhoneNumberValidator.isValidate(patientNotification.getPhoneNumber())) {
+			if (!PhoneNumberValidator.isValid(patientNotification.getPhoneNumber())) {
 				patientNotification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
 			

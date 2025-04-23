@@ -44,7 +44,7 @@ public class ProcessPatientsDefaultersForFiveDaysService extends BaseOpenmrsServ
 			notification.setNotificationType(NotificationType.DEFAULTERS_FOR_FIVE_DAYS);
 			notification.setSuggestedAppointmentDate(notification.getAppointmentDate());
 			
-			if (!PhoneNumberValidator.isValidate(notification.getPhoneNumber())) {
+			if (!PhoneNumberValidator.isValid(notification.getPhoneNumber())) {
 				notification.setNotificationStatus(NotificationStatus.INVALID_PHONE_NUMBER);
 			}
 			
