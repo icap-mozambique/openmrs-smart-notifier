@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,6 +18,7 @@ import org.openmrs.module.smartnotifier.api.application.out.MessageStatus;
 import org.openmrs.module.smartnotifier.api.application.out.SendPatientPort;
 import org.openmrs.module.smartnotifier.api.common.BusinessException;
 import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotification;
+import org.openmrs.module.smartnotifier.builder.JerseyBuilder;
 import org.openmrs.module.smartnotifier.dto.PatientNotificationDTO;
 
 /**
@@ -31,8 +31,8 @@ public class SendPatientsToViamoAdapter implements SendPatientPort {
 	@Override
 	public Message send(final List<PatientNotification> patientNotifications) throws BusinessException {
 
-		final Client client = ClientBuilder
-				.newClient();
+		final JerseyBuilder builder = new JerseyBuilder();
+		final Client client = builder.createClient();
 
 		final String healthFacilityCode = this.getHealthFacilityCode();
 
@@ -53,7 +53,7 @@ public class SendPatientsToViamoAdapter implements SendPatientPort {
 		} catch (final ProcessingException e) {
 			return new Message(MessageStatus.FAILED, "Failed...");
 		} finally {
-			client.close();
+			builder.close(client);
 		}
 
 		return new Message(MessageStatus.FAILED, "Failed...");
