@@ -20,7 +20,7 @@ public class JerseyBuilder {
 		return ClientBuilder.newClient();
 	}
 	
-	public void close(final Client client) {
+	public void closeClient(final Client client) {
 		client.close();
 		Thread.currentThread().setContextClassLoader(this.classLoader);
 	}

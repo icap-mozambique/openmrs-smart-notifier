@@ -53,7 +53,7 @@ public class SendPatientsToViamoAdapter implements SendPatientPort {
 		} catch (final ProcessingException e) {
 			return new Message(MessageStatus.FAILED, "Failed...");
 		} finally {
-			builder.close(client);
+			builder.closeClient(client);
 		}
 
 		return new Message(MessageStatus.FAILED, "Failed...");
