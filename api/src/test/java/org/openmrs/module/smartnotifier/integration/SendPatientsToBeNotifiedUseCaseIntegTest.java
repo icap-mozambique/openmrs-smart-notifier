@@ -27,16 +27,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Stélio Moiane
  */
 public class SendPatientsToBeNotifiedUseCaseIntegTest extends AbstractIntegrationTest {
-
+	
 	@Autowired
 	private SendPatientsToBeNotifiedUseCase sendPatientsToBeNotifiedService;
-
+	
 	@Autowired
 	private PatientNotificationAdapter patientNotificationDAO;
-
+	
 	@Mock
 	private SendPatientPort sendPatientPort;
-
+	
 	@Test
 	@Ignore
 	public void shouldSendPatientsToBeNotified() throws BusinessException {
@@ -57,15 +57,15 @@ public class SendPatientsToBeNotifiedUseCaseIntegTest extends AbstractIntegratio
 			Assert.assertEquals(DateUtil.toTimestamp(sendDate), notification.getNotificationSentDate());
 		});
 	}
-
+	
 	@Override
 	protected String username() {
 		return "admin";
 	}
-
+	
 	@Override
 	protected String password() {
 		return "Ic@pSIS2021";
 	}
-
+	
 }

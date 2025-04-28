@@ -18,26 +18,27 @@ import org.slf4j.LoggerFactory;
  * @author Stélio Moiane
  */
 public class SendPatientsToNotifyTask extends AbstractTask {
-
+	
 	private static final Logger log = LoggerFactory.getLogger(SendPatientsToNotifyTask.class);
-
+	
 	@Override
 	public void execute() {
 		final SendPatientsToBeNotifiedUseCase sendPatientsToBeNotifiedService = Context
-				.getService(SendPatientsToBeNotifiedUseCase.class);
-
+		        .getService(SendPatientsToBeNotifiedUseCase.class);
+		
 		final SendPatientPort sendPatientPort = new SendPatientsToViamoAdapter();
-
+		
 		try {
 			SendPatientsToNotifyTask.log.info("Send patients to notify list process started");
-
+			
 			sendPatientsToBeNotifiedService.setSendPatientPort(sendPatientPort);
-
+			
 			final LocalDate sendDate = LocalDate.now();
 			sendPatientsToBeNotifiedService.send(sendDate);
-
+			
 			SendPatientsToNotifyTask.log.info("Send patients to notify list process finished");
-		} catch (final BusinessException e) {
+		}
+		catch (final BusinessException e) {
 			SendPatientsToNotifyTask.log.error(e.getMessage());
 			e.printStackTrace();
 		}
