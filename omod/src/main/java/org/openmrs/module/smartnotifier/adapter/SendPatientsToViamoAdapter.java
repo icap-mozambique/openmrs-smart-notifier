@@ -25,14 +25,19 @@ import org.openmrs.module.smartnotifier.dto.PatientNotificationDTO;
  * @author Stélio Moiane
  */
 public class SendPatientsToViamoAdapter implements SendPatientPort {
-	
+
 	private static final int DATIM_CODE = 2;
-	
+
+	private JerseyBuilder builder;
+
+	public SendPatientsToViamoAdapter(final JerseyBuilder builder) {
+		this.builder = builder;
+	}
+
 	@Override
 	public Message send(final List<PatientNotification> patientNotifications) throws BusinessException {
 
-		final JerseyBuilder builder = new JerseyBuilder();
-		final Client client = builder.createClient();
+		final Client client = this.builder.createClient();
 
 		final String healthFacilityCode = this.getHealthFacilityCode();
 
@@ -53,12 +58,12 @@ public class SendPatientsToViamoAdapter implements SendPatientPort {
 		} catch (final ProcessingException e) {
 			return new Message(MessageStatus.FAILED, "Failed...");
 		} finally {
-			builder.closeClient(client);
+			this.builder.closeClient(client);
 		}
 
 		return new Message(MessageStatus.FAILED, "Failed...");
 	}
-	
+
 	private String getHealthFacilityCode() {
 		return Context.getLocationService().getDefaultLocation().getAttributes().stream()
 				.filter(attribute -> attribute.getAttributeType().getLocationAttributeTypeId() == SendPatientsToViamoAdapter.DATIM_CODE)
