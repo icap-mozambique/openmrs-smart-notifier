@@ -14,9 +14,9 @@ import org.openmrs.module.smartnotifier.api.infrastructure.entity.PatientNotific
  * @author Stélio Moiane
  */
 public interface SendPatientsToBeNotifiedUseCase {
-
+	
 	List<PatientNotification> send(LocalDate sendDate) throws BusinessException;
-
+	
 	void setSendPatientPort(SendPatientPort sendPatientPort);
-
+	
 }
