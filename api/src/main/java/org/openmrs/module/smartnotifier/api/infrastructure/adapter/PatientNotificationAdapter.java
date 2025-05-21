@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.openmrs.Patient;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
@@ -50,19 +49,24 @@ public class PatientNotificationAdapter implements PatientNotificationPort {
 	public List<PatientNotification> getPatientsToNotify(final String query, final Map<String, Object> params)
 	        throws BusinessException {
 		
-		final SQLQuery sqlQuery = this.getSession().createSQLQuery(QueryUtil.loadQuery(query));
+		String loadedQuery = QueryUtil.loadQuery(query);
 		
 		for (final Entry<String, Object> param : params.entrySet()) {
 			
-			sqlQuery.setParameter(param.getKey(), param.getValue());
+			final String key = ":" + param.getKey();
 			
 			if (param.getValue() instanceof LocalDate) {
-				sqlQuery.setParameter(param.getKey(), DateUtil.toTimestamp((LocalDate) param.getValue()));
+				final String value = "'" + DateUtil.toTimestamp((LocalDate) param.getValue()).toString() + "'";
+				loadedQuery = loadedQuery.replace(key, value);
+				
+				continue;
 			}
+			
+			loadedQuery = loadedQuery.replace(key, param.getValue().toString());
 		}
 		
 		@SuppressWarnings("unchecked")
-		final List<Object[]> result = sqlQuery.list();
+		final List<Object[]> result = this.getSession().createSQLQuery(loadedQuery).list();
 		
 		final List<PatientNotification> patientNotifications = new ArrayList<PatientNotification>();
 		
